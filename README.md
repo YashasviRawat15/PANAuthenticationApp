@@ -115,7 +115,3 @@ This utility file contains the function `extractPanNumber`, which performs the O
 - **OCR with Tesseract.js**: The image URI is passed to `Tesseract.recognize`, which processes the image and extracts the text.
 - **PAN Validation**: The text extracted is then matched with a regex pattern that defines the format of a PAN number (`[A-Z]{5}[0-9]{4}[A-Z]{1}`).
 
-### styles.js (UI Styling)
-
-- Uses `React Native StyleSheet` to style various components such as buttons, inputs, and images.
-- Provides responsiveness and adjusts the UI for both mobile devices and tablets.
