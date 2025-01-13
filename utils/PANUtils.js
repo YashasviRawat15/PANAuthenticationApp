@@ -1,9 +1,22 @@
-import * as Tesseract from 'tesseract.js';
+import { manipulateAsync } from 'expo-image-manipulator';
+import Tesseract from 'tesseract.js';
 
 export async function extractPanNumber(imageUri) {
   try {
-    const result = await Tesseract.recognize(imageUri, 'eng');
-    const text = result.data.text;
+    // Preprocess image: Resize and convert to grayscale
+    const manipulatedImage = await manipulateAsync(
+      imageUri,
+      [{ resize: { width: 800 } }],
+      { compress: 1, format: 'jpeg' }
+    );
+
+    const worker = await Tesseract.createWorker();
+
+    await worker.load();
+    await worker.loadLanguage('eng');
+    await worker.initialize('eng');
+
+    const { data: { text } } = await worker.recognize(manipulatedImage.uri);
 
     const panRegex = /[A-Z]{5}[0-9]{4}[A-Z]{1}/g;
     const matches = text.match(panRegex);
